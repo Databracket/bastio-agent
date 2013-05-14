@@ -172,3 +172,4 @@ class GlobalConfigStore(defaultdict):
         if not ret:
             raise BastioConfigError(
                     'could not load configuration file: `{}`'.format(filename))
+

@@ -135,3 +135,4 @@ class Json(object):
             else:
                 self.__dict__[key] = value
         return self
+

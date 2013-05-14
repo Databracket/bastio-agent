@@ -29,7 +29,7 @@ from bastio.excepts import BastioConfigError, reraise
 class GlobalConfigStore(defaultdict):
     """An in-memory configuration store that inherits :class:`defaultdict`
     behavior. This store is a singleton so only one object is created.
-    Please see :class:`bastio.mixins.UniqueSingletonMeta`.
+    Please see :class:`bastio.mixin.UniqueSingletonMeta`.
 
     The in-memory store takes precedence over the configuration file. If key
     was not found in the memory store we'll try to get it from the configuration

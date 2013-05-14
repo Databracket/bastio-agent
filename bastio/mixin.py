@@ -6,7 +6,7 @@ __copyright__ = "Copyright 2013 Databracket LLC"
 __license__ = "GPLv3+"
 
 """
-:module: bastio.mixins
+:module: bastio.mixin
 :synopsis: Mixins utilities used across the project.
 :author: Amr Ali <amr@databracket.com>
 

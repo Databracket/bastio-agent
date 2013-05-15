@@ -113,7 +113,7 @@ class Json(object):
                 continue
 
             if isinstance(value, self.__class__):
-                res.update({ key: literal_eval(value.toJson()) })
+                res.update({ key: literal_eval(value.to_json()) })
             else:
                 res.update({ key: value })
         return json.dumps(res)

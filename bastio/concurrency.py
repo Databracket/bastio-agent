@@ -135,7 +135,7 @@ class Task(object):
     def args(self, value):
         if not (isinstance(value, list) or isinstance(value, tuple)):
             raise BastioTaskError("field args need to be either a list or a tuple")
-        self._args = value
+        self._args = tuple(value)
 
     @property
     def kwargs(self):

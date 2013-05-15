@@ -74,16 +74,10 @@ class Task(object):
     a task succeeds or fails, called ``success`` and ``failure`` respectively.
     """
 
-    def __init__(self, target, success=None, failure=None, infinite=False,
+    def __init__(self, target, success=lambda x: x, failure=lambda x: x, infinite=False,
             *args, **kwargs):
         token = hex(random.getrandbits(128)).strip('0xL').rjust(128 / 4, '0')
         self._id = hashlib.sha1(token.decode('hex')).hexdigest()
-        self._target = None
-        self._success = None
-        self._failure = None
-        self._infinite = None
-        self._args = None
-        self._kwargs = None
         self.target = target
         self.success = success
         self.failure = failure

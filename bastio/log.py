@@ -36,7 +36,7 @@ class Logger(object):
     """
     __metaclass__ = UniqueSingletonMeta
 
-    def __init__(self, prog):
+    def __init__(self, prog = 'bastio-agent'):
         self._logger = logging.getLogger(prog)
         self._formatter = logging.Formatter(prog + '[%(process)d]: %(message)s')
         self._syslog_enabled = False

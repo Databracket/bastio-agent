@@ -19,6 +19,8 @@ Exceptions
 .. autoclass:: BastioConfigError
 
 .. autoclass:: BastioUnimplementedError
+
+.. autoclass:: BastioTaskError
 """
 
 import sys
@@ -59,3 +61,7 @@ class BastioUnimplementedError(BastioException):
     """An unimplemented operation error"""
     pass
 
+@public
+class BastioTaskError(BastioException):
+    """A task operation error"""
+    pass

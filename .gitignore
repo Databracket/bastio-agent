@@ -1,6 +1,7 @@
 # Packaging artifacts
 *.egg
 *.egg-info
+*.gz
 dist
 build
 eggs

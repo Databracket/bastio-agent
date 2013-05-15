@@ -132,7 +132,7 @@ class GlobalConfigStore(defaultdict):
 
                 # Now let's try the configuration file
                 try:
-                    self[option] = self._config.get(self._section, attr)
+                    self[attr] = self._config.get(self._section, attr)
                 except ConfigParser.NoOptionError:
                     # Not found here either, return value of ``default_factory``
                     return self[attr]
@@ -167,7 +167,7 @@ class GlobalConfigStore(defaultdict):
         if not os.path.exists(filename):
             raise BastioConfigError(
                     'configuration file `{}` does not exist'.format(filename))
-        self._config = ConfigParser.SafeConfigParser()
+        self.__dict__['_config'] = ConfigParser.SafeConfigParser()
         ret = self._config.read(filename)
         if not ret:
             raise BastioConfigError(

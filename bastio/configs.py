@@ -38,7 +38,7 @@ class GlobalConfigStore(defaultdict):
     """
     __metaclass__ = UniqueSingletonMeta
 
-    def __init__(self, section='bastio-agent', default_factory=str):
+    def __init__(self, section='agent', default_factory=str):
         """
         :param section:
             The section of the configuration file to use by default.

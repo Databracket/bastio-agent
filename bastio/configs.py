@@ -49,11 +49,11 @@ class GlobalConfigStore(defaultdict):
         :type default_factory:
             object
         """
-        super(GlobalConfigs, self).__init__(default_factory)
-        self._section = section
-        self._config = None
+        super(GlobalConfigStore, self).__init__(default_factory)
+        self.__dict__['_section'] = section
+        self.__dict__['_config'] = None
 
-    def __getattr__(self, name):
+    def __getattr__(self, attr):
         """
         There's only one case where precedence is reversed in favor of the
         configuration file; when one of the [method]s below are present right
@@ -61,7 +61,7 @@ class GlobalConfigStore(defaultdict):
         it will be set in the memory store so that you can access it later without
         having to consult the configuration file again.
 
-        :param name:
+        :param attr:
             The syntax is [method]_[section]_<option name> where [method] and
             [section] are optional, and <option name> is required. Note that
             if you wish not to supply [method] you need to remove [section] and
@@ -76,15 +76,15 @@ class GlobalConfigStore(defaultdict):
             the configuration file, similarly in the case of ``get_name`` we will
             try to get the option's value from the configuration file but from
             under the section that was supplied to the constructor.
-        :type name:
+        :type attr:
             str
         :returns:
             The option's value or ``default_factory`` if no value was set.
         :raises:
             :class:`bastio.excepts.BastioConfigError`
         """
-        if name.startswith('get'):
-            tmp = name.split('_')
+        if attr.startswith('get'):
+            tmp = attr.split('_')
             method = tmp[0]
 
             # Check if the method requested is supported
@@ -127,32 +127,32 @@ class GlobalConfigStore(defaultdict):
             if self._config:
                 # Check if it exists in the memory store and if not try the
                 # configuration file
-                if name in self:
-                    return self[name]
+                if attr in self:
+                    return self[attr]
 
                 # Now let's try the configuration file
                 try:
-                    self[option] = self._config.get(self._section, name)
+                    self[option] = self._config.get(self._section, attr)
                 except ConfigParser.NoOptionError:
                     # Not found here either, return value of ``default_factory``
-                    return self[name]
+                    return self[attr]
                 except ConfigParser.Error:
                     reraise(BastioConfigError)
-            return self[name]
+            return self[attr]
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, attr, value):
         """Set a value to the in-memory store.
 
-        :param name:
+        :param attr:
             The key in the key-value in-memory store.
-        :type name:
+        :type attr:
             str
         :param value:
             The value in the key-value in-memory store.
         :type value:
             object
         """
-        self[name] = value
+        self[attr] = value
 
     def load(self, filename):
         """Load a configuration file using :class:`ConfigParser` into memory.

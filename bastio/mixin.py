@@ -27,8 +27,6 @@ Data Structure Mixins
 import json
 from collections import defaultdict
 
-from bastio.excepts import BastioUnimplementedError
-
 def public(obj):
     """A decorator to avoid retyping function/class names in __all__."""
     import sys
@@ -58,6 +56,7 @@ class SingletonAbstractMeta(type):
 
         This is an abstract function, it is required to override it.
         """
+        from bastio.excepts import BastioUnimplementedError
         raise BastioUnimplementedError("function _make_id is not implemented")
 
 @public

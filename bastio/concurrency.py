@@ -254,9 +254,13 @@ class ThreadPool(object):
                     task.success(ret)
             except Exception as ex:
                 if task.failure:
-                    task.failure(Failure())
+                    try:
+                        task.failure(Failure())
+                    except Exception:
+                        msg = 'failure callback raised an error on task ({})'.format(task.id)
+                        self._logger.critical(msg, exc_info=True)
                 else:
-                    msg = "error occurred in thread (%s): %s" % (task.id, ex.message)
+                    msg = "error occurred on task ({}): {}".format(task.id, ex.message)
                     self._logger.critical(msg, exc_info=True)
 
             if task.infinite:

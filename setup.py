@@ -2,6 +2,10 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
+# Make sure setuptools is installed
+from distribute_setup import use_setuptools
+use_setuptools()
+
 from unittest import TextTestRunner
 from distutils.core import Command, setup
 from bastio.agent.test import suite as bastio_test_suite

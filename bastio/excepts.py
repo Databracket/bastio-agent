@@ -21,6 +21,8 @@ Exceptions
 .. autoclass:: BastioUnimplementedError
 
 .. autoclass:: BastioTaskError
+
+.. autoclass:: BastioCryptoError
 """
 
 import sys
@@ -65,3 +67,9 @@ class BastioUnimplementedError(BastioException):
 class BastioTaskError(BastioException):
     """A task operation error"""
     pass
+
+@public
+class BastioCryptoError(BastioException):
+    """A cryptographic operation error"""
+    pass
+

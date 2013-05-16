@@ -12,3 +12,7 @@ __license__ = "GPLv3+"
 """
 
 from .version import __version__
+
+def load_test_suite():
+    from bastio.test import suite
+    return suite

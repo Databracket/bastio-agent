@@ -16,6 +16,7 @@ Configuration Store
     :members:
 """
 
+import StringIO
 import paramiko
 
 from bastio.mixin import public
@@ -44,10 +45,44 @@ class RSAKey(paramiko.RSAKey):
         except Exception:
             reraise(BastioCryptoError)
 
+    @classmethod
+    def validate_private_key(cls, data):
+        """Validate private key data.
+
+        :param data:
+            A PEM formatted private key content.
+        :type data:
+            str
+        :returns:
+            Whether the key data is valid.
+        """
+        try:
+            buf = StringIO.StringIO(data)
+            cls.from_private_key(buf)
+            return True
+        except Exception:
+            return False
+
+    @classmethod
+    def validate_private_key_file(cls, filename):
+        """Validate private key file.
+
+        :param filename:
+            A filename that contains PEM formatted private key data.
+        :type filename:
+            str
+        :returns:
+            Whether the key file is valid.
+        """
+        try:
+            cls.from_private_key_file(filename)
+            return True
+        except Exception:
+            return False
+
     def get_private_key(self):
         """Return private key data in PEM format."""
-        from StringIO import StringIO
-        buf = StringIO()
+        buf = StringIO.StringIO()
         self.write_private_key(buf)
         buf.seek(0)
         return buf.read()

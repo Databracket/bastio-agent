@@ -11,19 +11,31 @@ __license__ = "GPLv3+"
 :author: Amr Ali <amr@databracket.com>
 """
 
+import os
 import unittest
 
 from bastio.ssh.crypto import RSAKey
 from bastio.excepts import BastioCryptoError
 
 class TestRSAKey(unittest.TestCase):
+    def setUp(self):
+        self._key = RSAKey.generate(1024)
+        file('TEST_PRIVATE_KEY', 'wb').write(self._key.get_private_key())
+
     def test_key_generation(self):
         # Test invalid key size
         with self.assertRaises(BastioCryptoError):
             RSAKey.generate(1111)
-        key = RSAKey.generate(1024)
-        self.assertTrue(key.get_private_key())
-        self.assertTrue(key.get_public_key())
+        self.assertTrue(self._key.get_private_key())
+        self.assertTrue(self._key.get_public_key())
+
+    def test_key_validation(self):
+        priv = self._key.get_private_key()
+        self.assertTrue(RSAKey.validate_private_key(priv))
+        self.assertTrue(RSAKey.validate_private_key_file('TEST_PRIVATE_KEY'))
+
+    def tearDown(self):
+        os.unlink('TEST_PRIVATE_KEY')
 
 tests = [
         TestRSAKey,

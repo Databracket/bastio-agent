@@ -73,3 +73,13 @@ class BastioCryptoError(BastioException):
     """A cryptographic operation error"""
     pass
 
+@public
+class BastioNetstringError(BastioException):
+    """A Netstring parsing or composition error"""
+    pass
+
+@public
+class BastioEOFError(BastioException):
+    """EOF error"""
+    pass
+

@@ -87,6 +87,10 @@ class GlobalConfigStore(defaultdict):
             tmp = attr.split('_')
             method = tmp[0]
 
+            # Check if config parser is loaded and ready
+            if not self._config:
+                raise BastioConfigError('no configuration file was loaded')
+
             # Check if the method requested is supported
             if not hasattr(self._config, method):
                 raise BastioConfigError('method `{}` is not supported'.format(

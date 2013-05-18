@@ -16,6 +16,7 @@ Configuration Store
     :members:
 """
 
+import base64
 import StringIO
 import paramiko
 
@@ -44,6 +45,29 @@ class RSAKey(paramiko.RSAKey):
             return klass
         except Exception:
             reraise(BastioCryptoError)
+
+    @classmethod
+    def validate_public_key(cls, data):
+        """Validate public key data.
+
+        :param data:
+            An OpenSSH formatted public key.
+            [ssh-][ALGO][ ][BASE64][ ][COMMENT]
+        :type data:
+            str
+        :returns:
+            Whether the key data is valid.
+        """
+        try:
+            if not data.startswith('ssh-'):
+                return False
+            vals = data.split(' ')
+            if len(vals) < 2: # There must be at least 'ssh-algo' and 'base64'
+                return False
+            cls(data=base64.decodestring(vals[1]))
+            return True
+        except Exception:
+            return False
 
     @classmethod
     def validate_private_key(cls, data):

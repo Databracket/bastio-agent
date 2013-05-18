@@ -25,6 +25,7 @@ Data Structure Mixins
 """
 
 import json
+from ast import literal_eval
 from collections import defaultdict
 
 def public(obj):
@@ -105,8 +106,6 @@ class Json(object):
         :returns:
             A JSON formatted string.
         """
-        import json
-        from ast import literal_eval
         res = {}
         for key, value in self.__dict__.iteritems():
             if key.startswith('_') or callable(value):
@@ -125,7 +124,6 @@ class Json(object):
         :returns:
             ``self``
         """
-        import json
         obj = json.loads(json_string)
         for key, value in obj.iteritems():
             if isinstance(value, dict):
@@ -134,4 +132,16 @@ class Json(object):
             else:
                 self.__dict__[key] = value
         return self
+
+    def exists(self, field):
+        """Check whether a certain field exists in this object.
+
+        :param field:
+            The field name to be checked against __dict__.
+        :type field:
+            str
+        :returns:
+            bool
+        """
+        return field in self.__dict__
 

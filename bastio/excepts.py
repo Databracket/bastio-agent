@@ -83,3 +83,8 @@ class BastioEOFError(BastioException):
     """EOF error"""
     pass
 
+@public
+class BastioMessageError(BastioException):
+    """Message parser operation error"""
+    pass
+

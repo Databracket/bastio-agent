@@ -179,7 +179,7 @@ class ThreadPool(object):
         :type task:
             :class:`Task`
         :returns:
-            The task ID of type ``str``
+            The task ID of type str.
         """
         # If a task should run indefinitely it will get passed
         # a reference to the kill event to check on.
@@ -200,7 +200,7 @@ class ThreadPool(object):
         :param num:
             The number of workers to add to the pool.
         :type num:
-            ``int``
+            int
         """
         for x in range(int(num)):
             t = self.ThreadFactory(target=self.__worker)
@@ -213,7 +213,7 @@ class ThreadPool(object):
         :param num:
             The number of workers to remove from the pool.
         :type num:
-            ``int``
+            int
         """
         for x in range(int(num)):
             self._tasks.put("exit")
@@ -227,7 +227,7 @@ class ThreadPool(object):
         :param wait:
             Number of seconds to wait or None to wait forever.
         :type wait:
-            ``int``
+            float
         """
         self._killev.set()
         self.remove_worker(self._workers)

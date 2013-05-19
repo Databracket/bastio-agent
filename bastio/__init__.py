@@ -11,7 +11,7 @@ __license__ = "GPLv3+"
 :author: Amr Ali <amr@databracket.com>
 """
 
-from .version import __version__
+from .version import __version__, __protocol__
 
 def load_test_suite():
     from bastio.test import suite

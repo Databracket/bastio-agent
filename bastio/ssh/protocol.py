@@ -49,6 +49,7 @@ Protocol Messages
     :members:
 """
 
+import re
 import random
 
 from bastio import __protocol__
@@ -276,6 +277,8 @@ class ActionMessage(ProtocolMessage):
         """
         if not obj.exists('username'):
             raise BastioMessageError("username field is missing")
+        if not re.match("^([a-z_][a-z0-9_]{0,30})$", obj.username):
+            raise BastioMessageError("username field is invalid")
         return cls(**obj.__dict__)
 
 @public

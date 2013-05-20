@@ -99,6 +99,12 @@ class TestProtocolMessages(unittest.TestCase):
         self.assertEqual(fb.version, msg.version)
         fb.to_json()
 
+    def test_message_username(self):
+        obj = self._construct_action_msg(AddUserMessage, username='@@@@23#$@FE__')
+        self._msg_parser_raises(obj)
+        obj.sudo = False
+        self._msg_parser_raises(obj)
+
     def _msg_parser_raises(self, obj):
         with self.assertRaises(BastioMessageError):
             MessageParser.parse(obj.to_json())
@@ -111,13 +117,13 @@ class TestProtocolMessages(unittest.TestCase):
         self._msg_parser_raises(obj)
         return obj
 
-    def _construct_action_msg(self, action):
+    def _construct_action_msg(self, action, username='d4de'):
         obj = self._construct_protocol_msg()
         obj.type = ActionMessage.MessageType
         self._msg_parser_raises(obj)
         obj.action = action.ActionType
         self._msg_parser_raises(obj)
-        obj.username = 'd4de'
+        obj.username = username
         return obj
 
 tests = [

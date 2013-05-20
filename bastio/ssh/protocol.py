@@ -286,11 +286,10 @@ class AddUserMessage(ActionMessage):
     """An add-user action message."""
     ActionType = 'add-user'
 
-    def __init__(self, username, public_key, sudo, **kwargs):
+    def __init__(self, username, sudo, **kwargs):
         kwargs['action'] = self.ActionType
         kwargs['username'] = username
         super(AddUserMessage, self).__init__(**kwargs)
-        self.public_key = public_key
         self.sudo = sudo
 
     @classmethod
@@ -308,10 +307,6 @@ class AddUserMessage(ActionMessage):
             A new :class:`AddUserMessage` object containing the validated action
             object.
         """
-        if not obj.exists('public_key'):
-            raise BastioMessageError("public_key field is missing")
-        if not RSAKey.validate_public_key(obj.public_key):
-            raise BastioMessageError("public_key field is invalid")
         if not obj.exists('sudo'):
             raise BastioMessageError("sudo field is missing")
         return super(AddUserMessage, cls).parse(obj)

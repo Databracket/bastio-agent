@@ -40,8 +40,6 @@ class TestProtocolMessages(unittest.TestCase):
     def test_message_add_user(self):
         obj = self._construct_action_msg(AddUserMessage)
         self._msg_parser_raises(obj)
-        obj.public_key = self.PUBKEY
-        self._msg_parser_raises(obj)
         obj.sudo = False
         msg = MessageParser.parse(obj.to_json())
         self.assertIsInstance(msg, AddUserMessage)

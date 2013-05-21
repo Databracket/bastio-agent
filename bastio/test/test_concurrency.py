@@ -25,9 +25,8 @@ from bastio.configs import GlobalConfigStore
 
 class TestTask(unittest.TestCase):
     def test_task(self):
-        from hashlib import sha1
         task = Task(target=lambda x: x)
-        self.assertEqual(len(task.id), sha1().digest_size * 2)
+        self.assertIsInstance(task.id, long)
         self.assertEqual(task.target(True), True)
         self.assertEqual(task.success(True), True)
         self.assertEqual(task.failure(False), False)

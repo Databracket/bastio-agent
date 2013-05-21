@@ -27,7 +27,6 @@ Concurrency
 
 import sys
 import random
-import hashlib
 import threading
 import Queue as queue
 
@@ -76,8 +75,8 @@ class Task(object):
 
     def __init__(self, target, success=lambda x: x, failure=lambda x: x, infinite=False,
             *args, **kwargs):
-        token = hex(random.getrandbits(128)).strip('0xL').rjust(128 / 4, '0')
-        self._id = hashlib.sha1(token.decode('hex')).hexdigest()
+        self._id = random.getrandbits(128)
+        self._kill_ev = threading.Event()
         self.target = target
         self.success = success
         self.failure = failure
@@ -88,6 +87,10 @@ class Task(object):
     @property
     def id(self):
         return self._id
+
+    @property
+    def kill_event(self):
+        return self._kill_ev
 
     @property
     def target(self):
@@ -163,6 +166,7 @@ class ThreadPool(object):
         threading.stack_size(stacksize * 1024)
         self._logger = Logger()
         self._tasks = queue.Queue()
+        self._running_tasks = []
         self._min_workers = min_workers
         self._workers = 0
         self._avail_workers = 0
@@ -184,7 +188,7 @@ class ThreadPool(object):
         # If a task should run indefinitely it will get passed
         # a reference to the kill event to check on.
         if task.infinite:
-            task.args = (self._killev,) + task.args
+            task.args = (task.kill_event,) + task.args
         self._tasks.put(task)
         if self._workers < self._min_workers:
             self.add_worker(self._min_workers - self._workers)
@@ -192,7 +196,17 @@ class ThreadPool(object):
             self.add_worker(round(self._min_workers / 2.0))
         if self._avail_workers > self._min_workers:
             self.remove_worker(self._avail_workers - self._min_workers)
-        return task.id
+        return task
+
+    def stop(self, task):
+        """Signal a task to stop as soon as possible.
+
+        :param task:
+            A reference to a task to be stopped.
+        :type task:
+            :class:`Task`
+        """
+        task.kill_event.set()
 
     def add_worker(self, num=1):
         """Add worker(s) to the thread pool.
@@ -222,7 +236,8 @@ class ThreadPool(object):
         """Remove all workers from the pool.
 
         Remove all active workers from the pool and wait ``wait`` seconds
-        until last worker ends, or wait forever if ``wait`` is None.
+        until last worker ends, or wait forever if ``wait`` is None. This
+        action will also signal all running tasks to stop as soon as possible.
 
         :param wait:
             Number of seconds to wait or None to wait forever.
@@ -231,6 +246,8 @@ class ThreadPool(object):
         """
         self._killev.set()
         self.remove_worker(self._workers)
+        for task in self._running_tasks:
+            task.kill_event.set()
         self._all_died.wait(wait)
         self._killev.clear()
 
@@ -248,6 +265,7 @@ class ThreadPool(object):
                 self._avail_workers -= 1
 
             # Execute target function here
+            self._running_tasks.append(task)
             try:
                 ret = task.target(*task.args, **task.kwargs)
                 if task.success:
@@ -260,9 +278,11 @@ class ThreadPool(object):
                         msg = 'failure callback raised an error on task ({})'.format(task.id)
                         self._logger.critical(msg, exc_info=True)
                 else:
-                    msg = "error occurred on task ({}): {}".format(task.id, ex.message)
+                    msg = "unhandled error occurred on task ({}): {}".format(
+                            task.id, ex.message)
                     self._logger.critical(msg, exc_info=True)
 
+            self._running_tasks.remove(task)
             if task.infinite:
                 self._tasks.put(task)
             with self._countlck:

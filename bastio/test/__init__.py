@@ -4,6 +4,7 @@ import test_mixin
 import test_configs
 import test_ssh_crypto
 import test_ssh_protocol
+import test_ssh_api
 
 def __make_suite(tests):
     suite = unittest.TestSuite()
@@ -17,4 +18,5 @@ suite.addTests(__make_suite(test_mixin.tests))
 suite.addTests(__make_suite(test_configs.tests))
 suite.addTests(__make_suite(test_ssh_crypto.tests))
 suite.addTests(__make_suite(test_ssh_protocol.tests))
+suite.addTests(__make_suite(test_ssh_api.tests))
 

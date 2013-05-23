@@ -66,14 +66,8 @@ class BackendConnector(object):
             t.failure = self._catch_fail
             self._conn_handler_task = self._tp.run(t)
 
-    def stop(self, wait=None):
-        """Stop the connection handler thread.
-
-        :param wait:
-            Number of seconds to wait or None to wait until all threads die.
-        :type wait:
-            float
-        """
+    def stop(self):
+        """Stop the connection handler thread."""
         if self._running:
             self._running = False
             self.close()

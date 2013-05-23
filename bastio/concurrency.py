@@ -187,7 +187,7 @@ class ThreadPool(object):
         :type task:
             :class:`Task`
         :returns:
-            The task ID of type str.
+            The task that was passed to this method.
         """
         self._tasks.put(task)
         if self._workers < self._min_workers:

@@ -20,6 +20,8 @@ import os
 import pwd
 import threading
 import subprocess
+import collections
+import Queue as queue
 
 from bastio.log import Logger
 from bastio.mixin import KindSingletonMeta, public
@@ -40,8 +42,9 @@ class Processor(object):
 
     def __init__(self):
         self._tp = GlobalThreadPool()
-        self._connector = BackendConnector()
         self._logger = Logger()
+        self._ingress = queue.Queue()
+        self._egress = queue.Queue()
         # TODO: Put the following in a configuration file.
         self._home_dir = '/home'
         self._user_dir = os.path.join(self._home_dir, '{username}')
@@ -51,6 +54,15 @@ class Processor(object):
         t = Task(target=self.__action_handler, infinite=True)
         t.failure = self.__catch_fail
         self._action_handler_task = self._tp.run(t)
+
+    def endpoint(self):
+        """Return an ingress and an egress points to communicate with this
+        processor.
+
+        :returns:
+            :class:`bastio.ssh.client.BackendConnector.EndPoint`
+        """
+        return BackendConnector.EndPoint(ingress=self._ingress, egress=self._egress)
 
     def process(self, message):
         """Process a message and return a feedback.
@@ -88,15 +100,15 @@ class Processor(object):
 
     def stop(self):
         """Signal the action handler to stop."""
-        self._tp.stop(self._action_handler_task)
+        self._action_handler_task.stop()
 
     def __action_handler(self, kill_ev):
         self._logger.warning("action handler started")
         while not kill_ev.is_set():
-            message = self._connector.pop(timeout=3)
+            message = self._get_ingress(timeout=3)
             if message:
                 feedback = self.process(message)
-                self._connector.push(feedback)
+                self._put_egress(feedback)
 
     def __catch_fail(self, failure):
         try:
@@ -104,6 +116,15 @@ class Processor(object):
         except Exception:
             self._logger.critical("unexpected error occurred in the action handler",
                     exc_info=True)
+
+    def _get_ingress(self, timeout):
+        try:
+            return self._ingress.get(timeout=timeout)
+        except queue.Empty:
+            return None
+
+    def _put_egress(self, item):
+        self._egress.put(item)
 
 ###
 ###  BEGIN COMMAND METHODS

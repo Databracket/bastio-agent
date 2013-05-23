@@ -20,6 +20,7 @@ from bastio.ssh.protocol import (FeedbackMessage, AddUserMessage,
         RemoveUserMessage, UpdateUserMessage, AddKeyMessage, RemoveKeyMessage)
 from bastio.concurrency import GlobalThreadPool
 
+@unittest.skipIf(os.getuid() != 0, "this test case requires root access")
 class TestProcessor(unittest.TestCase):
 
     @classmethod
@@ -32,8 +33,6 @@ class TestProcessor(unittest.TestCase):
         cls._proc.stop()
 
     def setUp(self):
-        if os.getuid() != 0:
-            self.fail("this test needs to be ran as root")
         self._add_user(FeedbackMessage.SUCCESS, sudo=False)
 
     def tearDown(self):

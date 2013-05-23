@@ -214,16 +214,6 @@ class FeedbackMessage(ProtocolMessage):
         self.feedback = feedback
         self.status = status
 
-    @property
-    def status(self):
-        return self._status
-
-    @status.setter
-    def status(self, value):
-        if value not in self.STATUSES:
-            raise BastioMessageError("status field is invalid")
-        self._status = value
-
     @classmethod
     def parse(cls, obj):
         """Check feedback message fields and validate them.

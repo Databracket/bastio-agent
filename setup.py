@@ -2,38 +2,21 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
+
 # Make sure setuptools is installed
 from distribute_setup import use_setuptools
 use_setuptools()
 
-from unittest import TextTestRunner
-from distutils.core import Command, setup
-from bastio.agent.test import suite as bastio_test_suite
-from bastio.agent import __version__
+import os
+from setuptools import setup, find_packages
+from bastio import __version__
 
 BASE_DIR = os.path.dirname(__file__)
-README = os.path.join(BASE_DIR, 'README.rst')
-SCRIPT = os.path.join(BASE_DIR, 'bin', 'bastio-agent')
-
-class TestCommand(Command):
-    user_options = []
-    description = "Run all unit tests"
-
-    def initialize_options(self):
-        pass
-
-    def finalize_options(self):
-        pass
-
-    def run(self):
-        t = TextTestRunner(verbosity = 2)
-        t.run(bastio_test_suite)
-
-packages = [
-    'bastio',
-    'bastio.agent',
-    'bastio.agent.test',
-    ]
+README_PATH = os.path.join(BASE_DIR, 'README.rst')
+REQS_PATH = os.path.join(BASE_DIR, 'requirements.txt')
 
 classifiers = [
     'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
@@ -50,16 +33,22 @@ setup(
         name = 'Bastio-Agent',
         version = __version__,
         description = 'Bastio agent to provision system accounts and SSH access',
-        long_description = file(README).read(),
+        long_description = file(README_PATH).read(),
         author = 'Amr Ali',
         author_email = 'amr@databracket.com',
         maintainer = 'Amr Ali',
         maintainer_email = 'amr@databracket.com',
         url = 'https://bastio.com',
-        scripts = [SCRIPT],
-        packages = packages,
+        install_requires = map(lambda req: req.strip('\n'), file(REQS_PATH).readlines()),
+        entry_points = {
+            'console_scripts': [
+                'bastio-agent = bastio.cli:bastio_main',
+                ],
+            },
+        packages = find_packages(),
+        test_suite = 'bastio.load_test_suite',
         license = 'GPLv3+',
         platforms = 'Posix',
         classifiers = classifiers,
-        cmdclass = {'test', TestCommand},
     )
+

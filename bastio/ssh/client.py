@@ -22,6 +22,7 @@ import paramiko
 import collections
 import Queue as queue
 
+from bastio import __version__
 from bastio.log import Logger
 from bastio.mixin import KindSingletonMeta, public
 from bastio.configs import GlobalConfigStore
@@ -29,6 +30,9 @@ from bastio.concurrency import GlobalThreadPool, Task
 from bastio.ssh.protocol import Netstring, MessageParser, ProtocolMessage
 from bastio.excepts import (BastioBackendError, BastioEOFError,
         BastioNetstringError, BastioMessageError, reraise)
+
+# Set paramiko client ID
+paramiko.Transport._CLIENT_ID = "bastio-{}".format(__version__)
 
 @public
 class BackendConnector(object):

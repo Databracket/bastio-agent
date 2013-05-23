@@ -17,7 +17,6 @@ Facilities
 """
 
 import logging
-from logging.handlers import SysLogHandler
 
 from bastio.mixin import public, UniqueSingletonMeta
 
@@ -39,6 +38,7 @@ class Logger(object):
     def __init__(self, prog = 'bastio-agent'):
         self._logger = logging.getLogger(prog)
         self._formatter = logging.Formatter(prog + '[%(process)d]: %(message)s')
+        self._logger.addHandler(logging.NullHandler())
         self._syslog_enabled = False
         self._stream_enabled = False
 
@@ -49,7 +49,8 @@ class Logger(object):
         """Enable Syslog logging. This method is idempotent."""
         if self._syslog_enabled:
             return
-        _handler = SysLogHandler(address=_getSyslogAddress(), facility=SysLogHandler.LOG_SYSLOG)
+        _handler = SysLogHandler(address=_getSyslogAddress(),
+                facility=logging.SysLogHandler.LOG_SYSLOG)
         _handler.setFormatter(self._formatter)
         self._logger.addHandler(_handler)
         self._syslog_enabled = True

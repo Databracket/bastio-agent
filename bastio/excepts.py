@@ -23,6 +23,14 @@ Exceptions
 .. autoclass:: BastioTaskError
 
 .. autoclass:: BastioCryptoError
+
+.. autoclass:: BastioNetstringError
+
+.. autoclass:: BastioEOFError
+
+.. autoclass:: BastioMessageError
+
+.. autoclass:: BastioBackendError
 """
 
 import sys
@@ -86,5 +94,10 @@ class BastioEOFError(BastioException):
 @public
 class BastioMessageError(BastioException):
     """Message parser operation error"""
+    pass
+
+@public
+class BastioBackendError(BastioException):
+    """A backend client operation error"""
     pass
 

@@ -67,30 +67,34 @@ class Task(object):
 
     An infinite or a blocking task will have to take a kill :class:`threading.Event`
     as the first argument to the function to be able to end operations gracefully
-    in case a kill-all workers event was triggered.
+    in case a stop event was triggered.
 
     This class takes two callbacks as keyword arguments to handle the cases where
     a task succeeds or fails, called ``success`` and ``failure`` respectively.
+
+    Calling the :func:`Task.stop` method will signal the worker in the thread pool
+    to stop execution and exit gracefully.
     """
 
     def __init__(self, target, success=lambda x: x, failure=lambda x: x, infinite=False,
             *args, **kwargs):
         self._id = random.getrandbits(128)
         self._kill_ev = threading.Event()
+        self._infinite = infinite
         self.target = target
         self.success = success
         self.failure = failure
-        self.infinite = infinite
         self.args = args
         self.kwargs = kwargs
+
+    def stop(self):
+        """Signal this task to stop as soon as possible."""
+        self._infinite = False
+        self._kill_ev.set()
 
     @property
     def id(self):
         return self._id
-
-    @property
-    def kill_event(self):
-        return self._kill_ev
 
     @property
     def target(self):
@@ -126,19 +130,19 @@ class Task(object):
     def infinite(self):
         return self._infinite
 
-    @infinite.setter
-    def infinite(self, value):
-        self._infinite = bool(value)
-
     @property
     def args(self):
         return self._args
 
     @args.setter
     def args(self, value):
-        if not (isinstance(value, list) or isinstance(value, tuple)):
+        if not isinstance(value, (tuple, list)):
             raise BastioTaskError("field args need to be either a list or a tuple")
-        self._args = tuple(value)
+        value = tuple(value)
+        if self.infinite:
+            self._args = (self._kill_ev,) + value
+        else:
+            self._args = value
 
     @property
     def kwargs(self):
@@ -185,10 +189,6 @@ class ThreadPool(object):
         :returns:
             The task ID of type str.
         """
-        # If a task should run indefinitely it will get passed
-        # a reference to the kill event to check on.
-        if task.infinite:
-            task.args = (task.kill_event,) + task.args
         self._tasks.put(task)
         if self._workers < self._min_workers:
             self.add_worker(self._min_workers - self._workers)
@@ -197,16 +197,6 @@ class ThreadPool(object):
         if self._avail_workers > self._min_workers:
             self.remove_worker(self._avail_workers - self._min_workers)
         return task
-
-    def stop(self, task):
-        """Signal a task to stop as soon as possible.
-
-        :param task:
-            A reference to a task to be stopped.
-        :type task:
-            :class:`Task`
-        """
-        task.kill_event.set()
 
     def add_worker(self, num=1):
         """Add worker(s) to the thread pool.
@@ -247,7 +237,7 @@ class ThreadPool(object):
         self._killev.set()
         self.remove_worker(self._workers)
         for task in self._running_tasks:
-            task.kill_event.set()
+            task.stop()
         self._all_died.wait(wait)
         self._killev.clear()
 

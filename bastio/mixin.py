@@ -93,7 +93,7 @@ class UniqueSingletonMeta(SingletonAbstractMeta):
 
 @public
 class Json(object):
-    """A mixin to give objects the ability to seralize and deseralize to/from
+    """A mixin to give objects the ability to serialize and deserialize to/from
     JSON formatted string.
     """
 

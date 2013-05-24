@@ -31,6 +31,8 @@ Exceptions
 .. autoclass:: BastioMessageError
 
 .. autoclass:: BastioBackendError
+
+.. autoclass:: BastioAccountError
 """
 
 import sys
@@ -99,5 +101,10 @@ class BastioMessageError(BastioException):
 @public
 class BastioBackendError(BastioException):
     """A backend client operation error"""
+    pass
+
+@public
+class BastioAccountError(BastioException):
+    """An account operation error"""
     pass
 

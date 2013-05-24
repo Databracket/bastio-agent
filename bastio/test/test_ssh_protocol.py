@@ -35,7 +35,9 @@ class TestNetstring(unittest.TestCase):
         self.assertEqual(data, res)
 
 class TestProtocolMessages(unittest.TestCase):
-    PUBKEY = RSAKey.generate(1024).get_public_key()
+    @classmethod
+    def setUpClass(cls):
+        cls.pubkey = RSAKey.generate(1024).get_public_key()
 
     def test_message_add_user(self):
         obj = self._construct_action_msg(AddUserMessage)
@@ -59,14 +61,14 @@ class TestProtocolMessages(unittest.TestCase):
     def test_message_add_key(self):
         obj = self._construct_action_msg(AddKeyMessage)
         self._msg_parser_raises(obj)
-        obj.public_key = self.PUBKEY
+        obj.public_key = self.pubkey
         msg = MessageParser.parse(obj.to_json())
         self.assertIsInstance(msg, AddKeyMessage)
 
     def test_message_remove_key(self):
         obj = self._construct_action_msg(RemoveKeyMessage)
         self._msg_parser_raises(obj)
-        obj.public_key = self.PUBKEY
+        obj.public_key = self.pubkey
         msg = MessageParser.parse(obj.to_json())
         self.assertIsInstance(msg, RemoveKeyMessage)
 

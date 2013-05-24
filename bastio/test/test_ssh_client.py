@@ -145,7 +145,8 @@ class TestBackendConnector(unittest.TestCase):
         chan = t.accept(20)
         cls.server_ready.set()
         cls.server_end.wait()
-        chan.close()
+        if chan:
+            chan.close()
         t.close()
 
 tests = [

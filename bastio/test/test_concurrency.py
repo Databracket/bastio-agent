@@ -82,7 +82,7 @@ class TestThreadPool(unittest.TestCase):
 
     @staticmethod
     def __test_target(arg):
-        time.sleep(0.1)
+        time.sleep(0.001) # 1ms
         return arg + "test"
 
     @staticmethod

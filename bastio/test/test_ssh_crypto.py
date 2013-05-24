@@ -35,8 +35,9 @@ class TestRSAKey(unittest.TestCase):
         self.assertTrue(RSAKey.validate_private_key_file('TEST_PRIVATE_KEY'))
         self.assertTrue(RSAKey.validate_public_key(self._key.get_public_key()))
 
-    def tearDown(self):
-        os.unlink('TEST_PRIVATE_KEY')
+    def test_key_loading(self):
+        pubkey = self.key.get_public_key()
+        self.assertIsInstance(RSAKey.from_public_key(pubkey), RSAKey)
 
 tests = [
         TestRSAKey,

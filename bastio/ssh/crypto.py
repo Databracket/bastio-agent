@@ -47,6 +47,22 @@ class RSAKey(paramiko.RSAKey):
             reraise(BastioCryptoError)
 
     @classmethod
+    def from_public_key(cls, public_key):
+        """Load an instance of this class with ``public_key``.
+
+        :param public_key:
+            An OpenSSH formatted public key.
+        :type public_key:
+            str
+        :returns:
+            :class:`RSAKey`
+        """
+        if not cls.validate_public_key(public_key):
+            raise BastioCryptoError("invalid public key")
+        vals = public_key.split(' ')
+        return cls(data=base64.decodestring(vals[1]))
+
+    @classmethod
     def validate_public_key(cls, data):
         """Validate public key data.
 

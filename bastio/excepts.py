@@ -14,25 +14,25 @@ Exceptions
 ----------
 .. automethod:: reraise
 
-.. autoclass:: BastioException
+.. autoexception:: BastioException
 
-.. autoclass:: BastioConfigError
+.. autoexception:: BastioConfigError
 
-.. autoclass:: BastioUnimplementedError
+.. autoexception:: BastioUnimplementedError
 
-.. autoclass:: BastioTaskError
+.. autoexception:: BastioTaskError
 
-.. autoclass:: BastioCryptoError
+.. autoexception:: BastioCryptoError
 
-.. autoclass:: BastioNetstringError
+.. autoexception:: BastioNetstringError
 
-.. autoclass:: BastioEOFError
+.. autoexception:: BastioEOFError
 
-.. autoclass:: BastioMessageError
+.. autoexception:: BastioMessageError
 
-.. autoclass:: BastioBackendError
+.. autoexception:: BastioBackendError
 
-.. autoclass:: BastioAccountError
+.. autoexception:: BastioAccountError
 """
 
 import sys

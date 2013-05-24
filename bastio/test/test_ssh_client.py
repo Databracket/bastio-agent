@@ -74,7 +74,7 @@ class SSHServer(paramiko.ServerInterface):
 
     def check_auth_publickey(self, username, key):
         cfg = GlobalConfigStore()
-        if (username == cfg.agent_username) and (key == cfg.agent_key):
+        if (username == cfg.agent_username) and (key == cfg.agentkey):
             return paramiko.AUTH_SUCCESSFUL
         return paramiko.AUTH_FAILED
 
@@ -100,7 +100,7 @@ class TestBackendConnector(unittest.TestCase):
         # Prepare BackendConnector
         cfg = GlobalConfigStore()
         cfg.agent_username = "test_agent"
-        cfg.agent_key = RSAKey.generate(1024)
+        cfg.agentkey = RSAKey.generate(1024)
         cfg.backend_hostkey = RSAKey.generate(1024)
         cfg.host = "127.0.0.1"
         cfg.port = 12345

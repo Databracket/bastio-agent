@@ -50,7 +50,7 @@ class BackendConnector(object):
         cfg = GlobalConfigStore()
         self._tp = GlobalThreadPool()
         self._username = cfg.agent_username
-        self._agent_key = cfg.agent_key
+        self._agent_key = cfg.agentkey
         self._backend_addr = (cfg.host, cfg.port)
         self._backend_hostkey = cfg.backend_hostkey
         self._logger = Logger()

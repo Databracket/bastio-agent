@@ -171,13 +171,16 @@ class ThreadPool(object):
         self._logger = Logger()
         self._tasks = queue.Queue()
         self._running_tasks = []
-        self._min_workers = min_workers
+        self._min_workers = min_workers + 1 # for the monitoring thread
         self._workers = 0
         self._avail_workers = 0
         self._countlck = threading.Lock()
+        self._task_added = threading.Event()
         self._killev = threading.Event()
         self._all_died = threading.Event()
         self.add_worker(self._min_workers)
+        mt = Task(target=self.__volume_monitor, infinite=True)
+        self.run(mt)
 
     def run(self, task):
         """Start a task.
@@ -189,13 +192,8 @@ class ThreadPool(object):
         :returns:
             The task that was passed to this method.
         """
+        self._task_added.set()
         self._tasks.put(task)
-        if self._workers < self._min_workers:
-            self.add_worker(self._min_workers - self._workers)
-        if self._avail_workers < self._min_workers:
-            self.add_worker(round(self._min_workers / 2.0))
-        if self._avail_workers > self._min_workers:
-            self.remove_worker(self._avail_workers - self._min_workers)
         return task
 
     def add_worker(self, num=1):
@@ -236,10 +234,21 @@ class ThreadPool(object):
         """
         self._killev.set()
         self.remove_worker(self._workers)
+        self._task_added.set()
         for task in self._running_tasks:
             task.stop()
         self._all_died.wait(wait)
         self._killev.clear()
+
+    def __volume_monitor(self, kill_ev):
+        while not kill_ev.is_set():
+            with self._countlck:
+                if self._workers < self._min_workers:
+                    self.add_worker(self._min_workers - self._workers)
+                if self._avail_workers < self._min_workers:
+                    self.add_worker(round(abs(self._workers - self._avail_workers) / 2.0))
+            self._task_added.wait(5.0)
+            self._task_added.clear()
 
     def __worker(self):
         with self._countlck:
@@ -247,8 +256,12 @@ class ThreadPool(object):
             self._avail_workers += 1
             self._all_died.clear()
         while not self._killev.is_set(): # Main thread body
-            task = self._tasks.get()
-            if task == 'exit': # "exit" is a sentinel task to kill the thread
+            try:
+                task = self._tasks.get(timeout=1.0)
+            except queue.Empty:
+                # Waited for too long
+                break
+            if task == 'exit': # "exit" is a sentinel task to kill the worker
                 break
 
             with self._countlck:
@@ -271,8 +284,8 @@ class ThreadPool(object):
                     msg = "unhandled error occurred on task ({}): {}".format(
                             task.id, ex.message)
                     self._logger.critical(msg, exc_info=True)
-
             self._running_tasks.remove(task)
+
             if task.infinite:
                 self._tasks.put(task)
             with self._countlck:

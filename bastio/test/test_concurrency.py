@@ -48,7 +48,7 @@ class TestThreadPool(unittest.TestCase):
         t = Task(target=self.__test_target, success=self._test_cb)
         t.args = ("task1",)
         t = self.tp.run(t)
-        retval = self.tp_results.get()
+        retval = self.tp_results.get(timeout=5)
         self.assertEqual(retval, "task1test")
 
     def test_tp_stress(self):
@@ -63,6 +63,7 @@ class TestThreadPool(unittest.TestCase):
         t.args = (d,)
         t = self.tp.run(t)
         time.sleep(0.01)
+        t.stop()
         self.assertGreater(d['counter'], 2)
 
     def test_task_failure(self):

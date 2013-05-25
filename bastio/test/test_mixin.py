@@ -54,6 +54,7 @@ class TestJson(unittest.TestCase):
         obj.field_sub.field_float = 1.23
         obj_json = Json().from_json(obj.to_json())
         self.assertEqual(obj_json.to_json(), obj.to_json())
+        self.assertIn('field_str', obj_json)
         self.assertIsInstance(obj_json.field_str, basestring)
         self.assertIsInstance(obj_json.field_int, int)
         self.assertIsInstance(obj_json.field_float, float)

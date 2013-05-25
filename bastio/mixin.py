@@ -25,6 +25,7 @@ Data Structure Mixins
 """
 
 import json
+from itertools import imap, ifilter
 from ast import literal_eval
 from collections import defaultdict
 
@@ -133,7 +134,7 @@ class Json(object):
                 self.__dict__[key] = value
         return self
 
-    def exists(self, field):
+    def __contains__(self, field):
         """Check whether a certain field exists in this object.
 
         :param field:
@@ -143,5 +144,7 @@ class Json(object):
         :returns:
             bool
         """
-        return field in self.__dict__
+        return field in imap(lambda x: x[0], ifilter(
+                lambda x: not(x[0].startswith('_') or callable(x[1])),
+                self.__dict__.iteritems()))
 

@@ -156,26 +156,16 @@ class ProtocolMessage(Json):
 
     def __init__(self, mid=None, version=None, **kwargs):
         super(ProtocolMessage, self).__init__()
+        self.type = self.MessageType
         if not mid:
             # A new message construction, not a reply to a received message,
             # generate our own mid
             self.mid = self.__generate_mid()
-        self.mid = mid
-
-        if not version:
-            # A new message construction, not a reply to a received message,
-            # assign our own protocol version
             self.version = self.ProtocolVersion
         else:
-            try:
-                major, minor = version.split('.')
-                major = int(major)
-                minor = int(minor)
-            except Exception:
-                raise BastioMessageError("protocol format error")
-            if major != PROTOCOL_VERSION[0]:
-                raise BastioMessageError("incompatible protocol version")
+            self.mid = mid
             self.version = version
+        self.parse(self, False)
 
     def reply(self, feedback, status):
         """Reply to a specific message with a feedback message that has
@@ -194,6 +184,40 @@ class ProtocolMessage(Json):
         """
         return FeedbackMessage(feedback, status, **self.__dict__)
 
+    @classmethod
+    def parse(cls, obj, traverse=True):
+        """Check protocol message fields and validate them.
+
+        Return a new object of type ``cls`` containing the validated
+        feedback object.
+
+        :param obj:
+            A JSON object containing the relevant fields for this protocol message.
+        :type obj:
+            :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
+        :returns:
+            A new object of type ``cls`` containing the validated protocol
+            message object.
+        """
+        if 'mid' not in obj:
+            raise BastioMessageError("message ID field is missing")
+        if 'version' not in obj:
+            raise BastioMessageError("version field is missing")
+        try:
+            major, minor = obj.version.split('.')
+            major = int(major)
+            minor = int(minor)
+        except Exception:
+            raise BastioMessageError("version field is invalid")
+        if major != PROTOCOL_VERSION[0]:
+            raise BastioMessageError("incompatible protocol version")
+        if traverse:
+            return cls(**obj.__dict__)
+
     @staticmethod
     def __generate_mid():
         return str(random.getrandbits(64))
@@ -209,33 +233,38 @@ class FeedbackMessage(ProtocolMessage):
     STATUSES = [ERROR, WARNING, INFO, SUCCESS]
 
     def __init__(self, feedback, status, **kwargs):
-        super(FeedbackMessage, self).__init__(**kwargs)
-        self.type = self.MessageType
         self.feedback = feedback
         self.status = status
+        super(FeedbackMessage, self).__init__(**kwargs)
+        self.parse(self, False)
 
     @classmethod
-    def parse(cls, obj):
+    def parse(cls, obj, traverse=True):
         """Check feedback message fields and validate them.
 
-        Return a new :class:`FeedbackMessage` object containing the validated
+        Return a new object of type ``cls`` containing the validated
         feedback object.
 
         :param obj:
             A JSON object containing the relevant fields for this feedback message.
         :type obj:
             :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
         :returns:
-            A new :class:`FeedbackMessage` object containing the validated feedback
+            A new object of type ``cls`` containing the validated feedback
             object.
         """
-        if not obj.exists('feedback'):
+        if 'feedback' not in obj:
             raise BastioMessageError("feedback field is missing")
-        if not obj.exists('status'):
+        if 'status' not in obj:
             raise BastioMessageError("status field is missing")
         if obj.status not in cls.STATUSES:
             raise BastioMessageError("status field is invalid")
-        return cls(**obj.__dict__)
+        if traverse:
+            return super(FeedbackMessage, cls).parse(obj)
 
 @public
 class ActionMessage(ProtocolMessage):
@@ -244,183 +273,208 @@ class ActionMessage(ProtocolMessage):
     """
     MessageType = 'action'
 
-    def __init__(self, action, username, **kwargs):
-        super(ActionMessage, self).__init__(**kwargs)
-        self.type = self.MessageType
-        self.action = action
+    def __init__(self, username, **kwargs):
+        self.action = self.ActionType
         self.username = username
+        super(ActionMessage, self).__init__(**kwargs)
+        self.parse(self, False)
 
     @classmethod
-    def parse(cls, obj):
+    def parse(cls, obj, traverse=True):
         """Check action message fields and validate them.
 
-        Return a new :class:`ActionMessage` object containing the validated
+        Return a new object of type ``cls`` containing the validated
         action object.
 
         :param obj:
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
         :returns:
-            A new :class:`ActionMessage` object containing the validated action
+            A new object of type ``cls`` containing the validated action
             object.
         """
-        if not obj.exists('username'):
+        if 'username' not in obj:
             raise BastioMessageError("username field is missing")
         if not re.match("^([a-z_][a-z0-9_]{0,30})$", obj.username):
             raise BastioMessageError("username field is invalid")
-        return cls(**obj.__dict__)
+        if traverse:
+            return super(ActionMessage, cls).parse(obj)
 
 @public
 class AddUserMessage(ActionMessage):
     """An add-user action message."""
     ActionType = 'add-user'
 
-    def __init__(self, username, sudo, **kwargs):
-        kwargs['action'] = self.ActionType
-        kwargs['username'] = username
-        super(AddUserMessage, self).__init__(**kwargs)
+    def __init__(self, sudo, **kwargs):
         self.sudo = sudo
+        super(AddUserMessage, self).__init__(**kwargs)
+        self.parse(self, False)
 
     @classmethod
-    def parse(cls, obj):
+    def parse(cls, obj, traverse=True):
         """Check add-user message fields and validate them.
 
-        Return a new :class:`AddUserMessage` object containing the validated
+        Return a new object of type ``cls`` containing the validated
         action object.
 
         :param obj:
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
         :returns:
-            A new :class:`AddUserMessage` object containing the validated action
+            A new object of type ``cls`` containing the validated action
             object.
         """
-        if not obj.exists('sudo'):
+        if 'sudo' not in obj:
             raise BastioMessageError("sudo field is missing")
-        return super(AddUserMessage, cls).parse(obj)
+        if traverse:
+            return super(AddUserMessage, cls).parse(obj)
 
 @public
 class RemoveUserMessage(ActionMessage):
     """A remove-user action message."""
     ActionType = 'remove-user'
 
-    def __init__(self, username, **kwargs):
-        kwargs['action'] = self.ActionType
-        kwargs['username'] = username
+    def __init__(self, **kwargs):
         super(RemoveUserMessage, self).__init__(**kwargs)
+        self.parse(self, False)
 
     @classmethod
-    def parse(cls, obj):
+    def parse(cls, obj, traverse=True):
         """Check remove-user message fields and validate them.
 
-        Return a new :class:`RemoveUserMessage` object containing the validated
+        Return a new object of type ``cls`` containing the validated
         action object.
 
         :param obj:
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
         :returns:
-            A new :class:`RemoveUserMessage` object containing the validated action
+            A new object of type ``cls`` containing the validated action
             object.
         """
-        return super(RemoveUserMessage, cls).parse(obj)
+        if traverse:
+            return super(RemoveUserMessage, cls).parse(obj)
 
 @public
 class UpdateUserMessage(ActionMessage):
     """A update-user action message."""
     ActionType = 'update-user'
 
-    def __init__(self, username, sudo, **kwargs):
-        kwargs['action'] = self.ActionType
-        kwargs['username'] = username
-        super(UpdateUserMessage, self).__init__(**kwargs)
+    def __init__(self, sudo, **kwargs):
         self.sudo = sudo
+        super(UpdateUserMessage, self).__init__(**kwargs)
+        self.parse(self, False)
 
     @classmethod
-    def parse(cls, obj):
+    def parse(cls, obj, traverse=True):
         """Check update-user message fields and validate them.
 
-        Return a new :class:`UpdateUserMessage` object containing the validated
+        Return a new object of type ``cls`` containing the validated
         action object.
 
         :param obj:
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
         :returns:
-            A new :class:`UpdateUserMessage` object containing the validated action
+            A new object of type ``cls`` containing the validated action
             object.
         """
-        if not obj.exists('sudo'):
+        if 'sudo' not in obj:
             raise BastioMessageError("sudo field is missing")
-        return super(UpdateUserMessage, cls).parse(obj)
+        if traverse:
+            return super(UpdateUserMessage, cls).parse(obj)
 
 @public
 class AddKeyMessage(ActionMessage):
     """A add-key action message."""
     ActionType = 'add-key'
 
-    def __init__(self, username, public_key, **kwargs):
-        kwargs['action'] = self.ActionType
-        kwargs['username'] = username
-        super(AddKeyMessage, self).__init__(**kwargs)
+    def __init__(self, public_key, **kwargs):
         self.public_key = public_key
+        super(AddKeyMessage, self).__init__(**kwargs)
+        self.parse(self, False)
 
     @classmethod
-    def parse(cls, obj):
+    def parse(cls, obj, traverse=True):
         """Check add-key message fields and validate them.
 
-        Return a new :class:`AddKeyMessage` object containing the validated
+        Return a new object of type ``cls`` containing the validated
         action object.
 
         :param obj:
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
         :returns:
-            A new :class:`AddKeyMessage` object containing the validated action
+            A new object of type ``cls`` containing the validated action
             object.
         """
-        if not obj.exists('public_key'):
+        if 'public_key' not in obj:
             raise BastioMessageError("public_key field is missing")
         if not RSAKey.validate_public_key(obj.public_key):
             raise BastioMessageError("public_key field is invalid")
-        return super(AddKeyMessage, cls).parse(obj)
+        if traverse:
+            return super(AddKeyMessage, cls).parse(obj)
 
 @public
 class RemoveKeyMessage(ActionMessage):
     """A remove-key action message."""
     ActionType = 'remove-key'
 
-    def __init__(self, username, public_key, **kwargs):
-        kwargs['action'] = self.ActionType
-        kwargs['username'] = username
-        super(RemoveKeyMessage, self).__init__(**kwargs)
+    def __init__(self, public_key, **kwargs):
         self.public_key = public_key
+        super(RemoveKeyMessage, self).__init__(**kwargs)
+        self.parse(self, False)
 
     @classmethod
-    def parse(cls, obj):
+    def parse(cls, obj, traverse=True):
         """Check remove-key message fields and validate them.
 
-        Return a new :class:`RemoveKeyMessage` object containing the validated
+        Return a new object of type ``cls`` containing the validated
         action object.
 
         :param obj:
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
         :returns:
-            A new :class:`RemoveKeyMessage` object containing the validated action
+            A new object of type ``cls`` containing the validated action
             object.
         """
-        if not obj.exists('public_key'):
+        if 'public_key' not in obj:
             raise BastioMessageError("public_key field is missing")
         if not RSAKey.validate_public_key(obj.public_key):
             raise BastioMessageError("public_key field is invalid")
-        return super(RemoveKeyMessage, cls).parse(obj)
+        if traverse:
+            return super(RemoveKeyMessage, cls).parse(obj)
 
 @public
 class ActionParser(object):
@@ -452,7 +506,7 @@ class ActionParser(object):
         :returns:
             A parsed and validated action message.
         """
-        if not obj.exists('action'):
+        if 'action' not in obj:
             raise BastioMessageError("action field is missing")
         if obj.action not in cls.SupportedActions:
             raise BastioMessageError(
@@ -491,11 +545,7 @@ class MessageParser(object):
         except Exception:
             reraise(BastioMessageError)
 
-        if not obj.exists('mid'):
-            raise BastioMessageError("mid field is missing")
-        if not obj.exists('version'):
-            raise BastioMessageError("version field is missing")
-        if not obj.exists('type'):
+        if 'type' not in obj:
             raise BastioMessageError("type field is missing")
         if obj.type not in cls.SupportedMessages:
             raise BastioMessageError(

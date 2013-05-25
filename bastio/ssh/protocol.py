@@ -33,6 +33,12 @@ Message Parsers
 
 Protocol Messages
 -----------------
+.. autoclass:: VersionMessage
+    :members:
+
+.. autoclass:: FeedbackMessage
+    :members:
+
 .. autoclass:: AddUserMessage
     :members:
 
@@ -221,6 +227,37 @@ class ProtocolMessage(Json):
     @staticmethod
     def __generate_mid():
         return str(random.getrandbits(64))
+
+@public
+class VersionMessage(ProtocolMessage):
+    """A protocol version message."""
+    MessageType = "version"
+
+    def __init__(self, **kwargs):
+        super(VersionMessage, self).__init__(**kwargs)
+        self.parse(self, False)
+
+    @classmethod
+    def parse(cls, obj, traverse=True):
+        """Check version message fields and validate them.
+
+        Return a new object of type ``cls`` containing the validated
+        feedback object.
+
+        :param obj:
+            A JSON object containing the relevant fields for this version message.
+        :type obj:
+            :class:`bastio.mixin.Json`
+        :param traverse
+            Whether to traverse ``parse`` on all the classes in the hierarchy.
+        :type traverse:
+            bool
+        :returns:
+            A new object of type ``cls`` containing the validated version
+            object.
+        """
+        if traverse:
+            return super(VersionMessage, cls).parse(obj)
 
 @public
 class FeedbackMessage(ProtocolMessage):

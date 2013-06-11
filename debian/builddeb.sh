@@ -1,5 +1,8 @@
 #!/bin/bash
-rm -rf opt/*
+if [  -d opt ]; then
+    rm -fr opt;mkdir opt
+fi
+
 cd ..
 python setup.py sdist 
 cd -

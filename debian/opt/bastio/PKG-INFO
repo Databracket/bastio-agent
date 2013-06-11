@@ -1,0 +1,22 @@
+Metadata-Version: 1.1
+Name: Bastio-Agent
+Version: 0.1.0
+Summary: Bastio agent to provision system accounts and SSH access
+Home-page: https://bastio.com
+Author: Amr Ali
+Author-email: amr@databracket.com
+License: GPLv3+
+Description: Bastio Agent
+        ============
+        
+        An agent for Bastio service to provision system accounts and SSH access.
+        
+Platform: Posix
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Natural Language :: English
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7

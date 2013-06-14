@@ -13,6 +13,7 @@ export DH_VERBOSE=1
 	dh $@ 
 
 build:
+	python setup.py sdist
 	#nothing to do
 
 clean:
@@ -26,9 +27,7 @@ install: build
 	dh_installdirs
 
 
-binary-indep: build install
-
-	python setup.py sdist
+binary-indep: install
 	dh_testdir
 	dh_testroot
 #	dh_installchangelogs 

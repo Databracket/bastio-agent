@@ -96,7 +96,6 @@ class TestProtocolMessages(unittest.TestCase):
         self.assertEqual(fb.feedback, "test warning")
         self.assertEqual(fb.status, FeedbackMessage.WARNING)
         self.assertEqual(fb.mid, msg.mid)
-        self.assertEqual(fb.version, msg.version)
         fb.to_json()
 
     def test_message_username(self):
@@ -112,8 +111,6 @@ class TestProtocolMessages(unittest.TestCase):
     def _construct_protocol_msg(self):
         obj = Json()
         obj.mid = "234293472786"
-        self._msg_parser_raises(obj)
-        obj.version = ProtocolMessage.ProtocolVersion
         self._msg_parser_raises(obj)
         return obj
 

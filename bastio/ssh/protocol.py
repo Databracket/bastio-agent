@@ -33,9 +33,6 @@ Message Parsers
 
 Protocol Messages
 -----------------
-.. autoclass:: VersionMessage
-    :members:
-
 .. autoclass:: FeedbackMessage
     :members:
 
@@ -58,8 +55,6 @@ Protocol Messages
 import re
 import random
 
-from bastio import __protocol__
-from bastio.version import PROTOCOL_VERSION
 from bastio.mixin import Json, public
 from bastio.ssh.crypto import RSAKey
 from bastio.excepts import (BastioNetstringError, BastioEOFError,
@@ -158,19 +153,16 @@ class Netstring(object):
 @public
 class ProtocolMessage(Json):
     """A protocol message base class."""
-    ProtocolVersion = __protocol__
 
-    def __init__(self, mid=None, version=None, **kwargs):
+    def __init__(self, mid=None, **kwargs):
         super(ProtocolMessage, self).__init__()
         self.type = self.MessageType
         if not mid:
             # A new message construction, not a reply to a received message,
             # generate our own mid
             self.mid = self.__generate_mid()
-            self.version = self.ProtocolVersion
         else:
             self.mid = mid
-            self.version = version
         self.parse(self, False)
 
     def reply(self, feedback, status):
@@ -211,53 +203,12 @@ class ProtocolMessage(Json):
         """
         if 'mid' not in obj:
             raise BastioMessageError("message ID field is missing")
-        if 'version' not in obj:
-            raise BastioMessageError("version field is missing")
-        try:
-            major, minor = obj.version.split('.')
-            major = int(major)
-            minor = int(minor)
-        except Exception:
-            raise BastioMessageError("version field is invalid")
-        if major != PROTOCOL_VERSION[0]:
-            raise BastioMessageError("incompatible protocol version")
         if traverse:
             return cls(**obj.__dict__)
 
     @staticmethod
     def __generate_mid():
         return str(random.getrandbits(64))
-
-@public
-class VersionMessage(ProtocolMessage):
-    """A protocol version message."""
-    MessageType = "version"
-
-    def __init__(self, **kwargs):
-        super(VersionMessage, self).__init__(**kwargs)
-        self.parse(self, False)
-
-    @classmethod
-    def parse(cls, obj, traverse=True):
-        """Check version message fields and validate them.
-
-        Return a new object of type ``cls`` containing the validated
-        feedback object.
-
-        :param obj:
-            A JSON object containing the relevant fields for this version message.
-        :type obj:
-            :class:`bastio.mixin.Json`
-        :param traverse
-            Whether to traverse ``parse`` on all the classes in the hierarchy.
-        :type traverse:
-            bool
-        :returns:
-            A new object of type ``cls`` containing the validated version
-            object.
-        """
-        if traverse:
-            return super(VersionMessage, cls).parse(obj)
 
 @public
 class FeedbackMessage(ProtocolMessage):

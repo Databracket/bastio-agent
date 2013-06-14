@@ -115,3 +115,4 @@ def upload_public_key(api_key, public_key, old_public_key=None):
     raise BastioAccountError(
             errmsg + "unexpected response status code ({})".format(
                 response.status_code))
+

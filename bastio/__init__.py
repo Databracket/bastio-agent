@@ -47,8 +47,9 @@ Exceptions
 .. automodule:: bastio.excepts
 """
 
-from .version import __version__, __protocol__
+from .version import __version__
 
 def load_test_suite():
     from bastio.test import suite
     return suite
+

@@ -1,2 +1,2 @@
-dist/Bastio-Agent-0.1.0.tar.gz	/tmp/
-debian/bastio-agent.conf	/etc/bastio/
+dist/Bastio-Agent-0.1.0.tar.gz	tmp
+debian/agent.conf	etc/bastio

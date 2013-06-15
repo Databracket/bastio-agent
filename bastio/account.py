@@ -101,12 +101,14 @@ def upload_public_key(api_key, public_key, old_public_key=None):
     if not RSAKey.validate_public_key(public_key):
         raise BastioAccountError(errmsg + "invalid new public key")
 
-    payload = dict(api_key=api_key,
-            public_key=public_key,
-            old_public_key=old_public_key)
+    payload = Json()
+    payload.api_key = api_key
+    payload.public_key = public_key
+    payload.old_public_key = old_public_key
 
+    headers = {'Content-type': 'application/json'}
     response = __send_request('post', url=__upload_key_endpoint, verify=True,
-            data=payload)
+            data=payload.to_json(), headers=headers)
     if response.status_code == requests.codes.bad: # 400
         raise BastioAccountError(errmsg + "missing or invalid field")
     elif response.status_code == requests.codes.forbidden: # 403

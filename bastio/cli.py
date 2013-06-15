@@ -282,6 +282,7 @@ def bastio_main():
     cfg.threadpool = GlobalThreadPool(cfg.minthreads)
     cfg.processor = Processor()
     cfg.connector = BackendConnector()
+    cfg.connector.register(cfg.processor.endpoint())
     cfg.connector.start()
     signal.pause()
 

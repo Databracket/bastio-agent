@@ -151,9 +151,12 @@ class CommandLine(object):
             # or from the command line argument
             try:
                 if conf_avail:
+                    cfg.apikey = cfg.apikey if cfg.get_apikey else \
+                            self.args.api_key
                     cfg.agentkey = cfg.agentkey if cfg.get_agentkey else \
                             self.args.agent_key
                 else:
+                    cfg.apikey = self.args.api_key
                     cfg.agentkey = self.args.agent_key
             except BastioConfigError as ex:
                 _die(ex.message)
@@ -183,11 +186,6 @@ class CommandLine(object):
                 _die(ex.message)
         elif self.args.command == 'upload-key':
             try:
-                if conf_avail:
-                    cfg.apikey = cfg.apikey if cfg.get_apikey else \
-                            self.args.api_key
-                else:
-                    cfg.apikey = self.args.api_key
                 # Check new key file's readability and validate it if provided
                 new_key = self.args.new_agent_key
                 if new_key:

@@ -33,7 +33,9 @@ def __send_request(method, **kwargs):
     try:
         method = getattr(requests, method)
         client_version = "Bastio Agent v{}".format(__version__)
-        kwargs['headers'] = {'User-Agent': client_version}
+        if 'headers' not in kwargs:
+            kwargs['headers'] = {}
+        kwargs['headers'].update({'User-Agent': client_version})
         return method(**kwargs)
     except requests.exceptions.SSLError:
         reraise(BastioAccountError, "SSL verification failed")

@@ -92,8 +92,9 @@ def upload_public_key(api_key, public_key, old_public_key=None):
 
     if not old_public_key:
         old_public_key = ''
-        if not RSAKey.validate_public_key(old_public_key):
-            raise BastioAccountError(errmsg + "invalid old public key")
+
+    if old_public_key and not RSAKey.validate_public_key(old_public_key):
+        raise BastioAccountError(errmsg + "invalid old public key")
 
     if not RSAKey.validate_public_key(public_key):
         raise BastioAccountError(errmsg + "invalid new public key")

@@ -58,7 +58,7 @@ def download_backend_hostkey():
     if response.status_code != requests.codes.okay: # 200
         raise BastioAccountError(errmsg + "unable to retrieve backend's host key")
 
-    public_key = response.content
+    public_key = response.json()['payload']
     if not RSAKey.validate_public_key(public_key):
         raise BastioAccountError(errmsg + "invalid host key")
     return RSAKey.from_public_key(public_key)

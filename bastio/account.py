@@ -54,7 +54,7 @@ def download_backend_hostkey():
     """
     errmsg = "get backend host key failed: "
 
-    response = __send_request('get', __download_hostkey_endpoint, verify=True)
+    response = __send_request('get', url=__download_hostkey_endpoint, verify=True)
     if response.status_code != requests.codes.okay: # 200
         raise BastioAccountError(errmsg + "unable to retrieve backend's host key")
 
@@ -102,7 +102,7 @@ def upload_public_key(api_key, public_key, old_public_key=None):
             public_key=public_key,
             old_public_key=old_public_key)
 
-    response = __send_request('post', __upload_key_endpoint, verify=True,
+    response = __send_request('post', url=__upload_key_endpoint, verify=True,
             data=payload)
     if response.status_code == requests.codes.bad: # 400
         raise BastioAccountError(errmsg + "missing or invalid field")

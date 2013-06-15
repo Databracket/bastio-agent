@@ -265,6 +265,7 @@ def bastio_main():
         _die("uploaded public key successfully", True)
     elif command == 'start':
         try:
+            cfg.agent_username = cfg.apikey
             cfg.agentkey = RSAKey.from_private_key_file(cfg.agentkey)
             cfg.backend_hostkey = download_backend_hostkey()
         except Exception as ex:

@@ -9,10 +9,15 @@ all:
 builddeb:
 	$(PYTHON) setup.py sdist
 	dpkg-buildpackage -A -tc 
+	mv ../*.deb .
+	mv ../*.changes	.
 release:
 	dch -i
 	$(PYTHON) setup.py sdist
 	dpkg-buildpackage -A -tc
-
+	mv ../*.deb . 
+	mv ../*.changes .
 clean:
 	$(PYTHON) setup.py clean
+	rm *.deb
+	rm *.changes

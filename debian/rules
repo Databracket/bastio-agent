@@ -13,7 +13,7 @@ export DH_VERBOSE=1
 	dh $@ 
 
 build:
-	python setup.py sdist
+	#python setup.py sdist
 	#nothing to do
 
 clean:

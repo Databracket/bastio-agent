@@ -1,4 +1,4 @@
-bastio-agent (0.1.0) unstable; urgency=low
+bastio-agent (0.1.0) precise; urgency=low
 
   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
 

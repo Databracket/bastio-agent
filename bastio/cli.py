@@ -89,13 +89,13 @@ class CommandLine(object):
         # A group for commands that require start action details
         start_group = argparse.ArgumentParser(add_help=False)
         start_group.add_argument('-H', '--host', default='backend.bastio.com',
-                help='host name of the Bastio backend (default: backend.bastio.com)')
+                help='host name of the Bastio backend (default: %(default)s)')
         start_group.add_argument('-p', '--port', type=int, default=2357,
-                help='port of the backend to connect to (default: 2357)')
+                help='port of the backend to connect to (default: %(default)s)')
         start_group.add_argument('-m', '--min-threads', type=int, default=3,
-                help='the minimum number of threads the thread pool must have (default: 3)')
+                help='the minimum number of threads the thread pool must have (default: %(default)s)')
         start_group.add_argument('-s', '--stack-size', type=int, default=512,
-                help='the stack size of each thread in KiB (default: 512KiB)')
+                help='the stack size of each thread in KiB (default: %(default)sKiB)')
 
         # A group for commands that require account details
         api_group = argparse.ArgumentParser(add_help=False)
@@ -109,7 +109,7 @@ class CommandLine(object):
         key_group = argparse.ArgumentParser(add_help=False)
         key_group.add_argument('--bits', type=int, default=2048,
                 help=('number of bits to generate for the private key'
-                    ' (this argument only make sense with `generate-key`)'))
+                    ' (default: %(default)s-bits, this argument only make sense with `generate-key`)'))
 
         # Command parsers
         sp = parser.add_subparsers(help='available commands', dest='command')

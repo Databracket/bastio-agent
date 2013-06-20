@@ -45,11 +45,11 @@ def __sig_handler(sig, frame):
 def _check_file_readability(filename):
     # Return a tuple of two status indicators, the first is to indicate that the
     # file exists and the second is an indication of file's readability.
-    if not os.path.exists(filename):
+    if not(filename and os.path.exists(filename)):
         return (False, False)
     try:
-        file(filename).close()
-        return (True, True)
+        with open(filename, 'rb') as fd:
+            return (True, True)
     except Exception:
         return (True, False)
 

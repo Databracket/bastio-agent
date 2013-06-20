@@ -102,7 +102,7 @@ class CommandLine(object):
         api_group.add_argument('--api-key',
                 help='Bastio API key')
         api_group.add_argument('-n', '--new-agent-key',
-                help=('path to the new agent key to replace the old one'
+                help=('path to the new agent key to replace the old one specified by -k'
                     ' (this argument only make sense with `upload-key`)'))
 
         # A group for commands that require key details

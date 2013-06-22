@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.ssh.client
 :synopsis: A module for SSH client implementations.
@@ -15,6 +11,10 @@ SSH Client
 .. autoclass:: BackendConnector
     :members:
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 import time
 import socket

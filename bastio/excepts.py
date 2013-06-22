@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.excepts
 :synopsis: Exception classes used by this project.
@@ -34,6 +30,10 @@ Exceptions
 
 .. autoexception:: BastioAccountError
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 import sys
 

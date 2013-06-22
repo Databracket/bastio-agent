@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.account
 :synopsis: A module responsible for communicating account details.
@@ -16,6 +12,10 @@ Account Functions
 
 .. automethod:: upload_public_key
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 import requests
 

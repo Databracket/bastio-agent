@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.mixin
 :synopsis: Mixins utilities used across the project.
@@ -23,6 +19,10 @@ Data Structure Mixins
 .. autoclass:: Json
     :members:
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 import json
 from itertools import imap, ifilter

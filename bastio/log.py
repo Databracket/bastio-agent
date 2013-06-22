@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.log
 :synopsis: Logging facilities for this project.
@@ -15,6 +11,10 @@ Facilities
 .. autoclass:: Logger
     :members:
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 import logging
 

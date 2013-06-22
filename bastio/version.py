@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC.
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.version
 :synopsis: A module that contain version details for the package.
@@ -24,6 +20,10 @@ Release of an update that that modifies the API and breaks
 backward compatibility:
 - Increment version's ``MAJOR`` field and reset both the ``MINOR`` and ``BUILD`` fields.
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 VERSION_MAJOR = 0
 VERSION_MINOR = 1

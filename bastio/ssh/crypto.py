@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.ssh.crypto
 :synopsis: A module for miscellaneous cryptographic facilities.
@@ -15,6 +11,10 @@ Configuration Store
 .. autoclass:: RSAKey
     :members:
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 import base64
 import StringIO

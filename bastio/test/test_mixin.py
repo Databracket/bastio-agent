@@ -1,15 +1,15 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.test.test_mixin
 :synopsis: Unit tests for the mixin module.
 :author: Amr Ali <amr@databracket.com>
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
 
 import unittest
 from bastio.mixin import KindSingletonMeta, UniqueSingletonMeta, Json

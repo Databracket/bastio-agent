@@ -1,10 +1,6 @@
 # Copyright 2013 Databracket LLC
 # See LICENSE file for details.
 
-__author__ = "Amr Ali"
-__copyright__ = "Copyright 2013 Databracket LLC"
-__license__ = "GPLv3+"
-
 """
 :module: bastio.ssh
 :synopsis: A Package for SSH management and communication.
@@ -26,3 +22,8 @@ Cryptographic Utilities
 -----------------------
 .. automodule:: bastio.ssh.crypto
 """
+
+__author__ = "Amr Ali"
+__copyright__ = "Copyright 2013 Databracket LLC"
+__license__ = "GPLv3+"
+

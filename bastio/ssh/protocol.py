@@ -193,7 +193,7 @@ class ProtocolMessage(Json):
             A JSON object containing the relevant fields for this protocol message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool
@@ -237,7 +237,7 @@ class FeedbackMessage(ProtocolMessage):
             A JSON object containing the relevant fields for this feedback message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool
@@ -278,7 +278,7 @@ class ActionMessage(ProtocolMessage):
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool
@@ -314,7 +314,7 @@ class AddUserMessage(ActionMessage):
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool
@@ -347,7 +347,7 @@ class RemoveUserMessage(ActionMessage):
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool
@@ -379,7 +379,7 @@ class UpdateUserMessage(ActionMessage):
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool
@@ -413,7 +413,7 @@ class AddKeyMessage(ActionMessage):
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool
@@ -449,7 +449,7 @@ class RemoveKeyMessage(ActionMessage):
             A JSON object containing the relevant fields for this action message.
         :type obj:
             :class:`bastio.mixin.Json`
-        :param traverse
+        :param traverse:
             Whether to traverse ``parse`` on all the classes in the hierarchy.
         :type traverse:
             bool

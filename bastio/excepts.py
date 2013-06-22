@@ -8,7 +8,7 @@
 
 Exceptions
 ----------
-.. automethod:: reraise
+.. autofunction:: reraise
 
 .. autoexception:: BastioException
 

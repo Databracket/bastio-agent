@@ -8,9 +8,9 @@
 
 Account Functions
 -----------------
-.. automethod:: download_backend_hostkey
+.. autofunction:: download_backend_hostkey
 
-.. automethod:: upload_public_key
+.. autofunction:: upload_public_key
 """
 
 __author__ = "Amr Ali"

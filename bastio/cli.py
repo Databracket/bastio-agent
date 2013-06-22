@@ -6,12 +6,10 @@
 :synopsis: A module responsible for the CLI of the agent.
 :author: Amr Ali <amr@databracket.com>
 
-Concurrency
------------
 .. autoclass:: CommandLine
     :members:
 
-.. automethod:: bastio_main
+.. autofunction:: bastio_main
 """
 
 __author__ = "Amr Ali"
@@ -230,7 +228,7 @@ class CommandLine(object):
 
 @public
 def bastio_main():
-    """Main function body."""
+    """Main application entry point."""
     signal.signal(signal.SIGINT, __sig_handler)
     signal.signal(signal.SIGTERM, __sig_handler)
     cfg = GlobalConfigStore()

@@ -6,8 +6,6 @@
 :synopsis: A module for miscellaneous cryptographic facilities.
 :author: Amr Ali <amr@databracket.com>
 
-Configuration Store
--------------------
 .. autoclass:: RSAKey
     :members:
 """

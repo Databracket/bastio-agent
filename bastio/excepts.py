@@ -6,8 +6,6 @@
 :synopsis: Exception classes used by this project.
 :author: Amr Ali <amr@databracket.com>
 
-Exceptions
-----------
 .. autofunction:: reraise
 
 .. autoexception:: BastioException

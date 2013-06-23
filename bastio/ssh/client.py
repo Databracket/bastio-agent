@@ -6,8 +6,6 @@
 :synopsis: A module for SSH client implementations.
 :author: Amr Ali <amr@databracket.com>
 
-SSH Client
-----------
 .. autoclass:: BackendConnector
     :members:
 """

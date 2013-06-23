@@ -6,8 +6,6 @@
 :synopsis: Concurrency utilities.
 :author: Amr Ali <amr@databracket.com>
 
-Concurrency
------------
 .. autoclass:: Failure
     :members:
 

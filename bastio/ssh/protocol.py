@@ -6,10 +6,14 @@
 :synopsis: A module containing protocol messages.
 :author: Amr Ali <amr@databracket.com>
 
+.. rst-class:: html-toggle
+
 Low Level Protocols
 -------------------
 .. autoclass:: Netstring
     :members:
+
+.. rst-class:: html-toggle
 
 Message Bases
 -------------
@@ -19,6 +23,8 @@ Message Bases
 .. autoclass:: ActionMessage
     :members:
 
+.. rst-class:: html-toggle
+
 Message Parsers
 ---------------
 .. autoclass:: MessageParser
@@ -26,6 +32,8 @@ Message Parsers
 
 .. autoclass:: ActionParser
     :members:
+
+.. rst-class:: html-toggle
 
 Protocol Messages
 -----------------

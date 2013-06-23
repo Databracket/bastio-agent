@@ -6,8 +6,6 @@
 :synopsis: A module responsible for the API between the backend and the agent.
 :author: Amr Ali <amr@databracket.com>
 
-Processor
----------
 .. autoclass:: Processor
     :members:
 """

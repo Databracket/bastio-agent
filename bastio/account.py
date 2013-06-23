@@ -6,8 +6,6 @@
 :synopsis: A module responsible for communicating account details.
 :author: Amr Ali <amr@databracket.com>
 
-Account Functions
------------------
 .. autofunction:: download_backend_hostkey
 
 .. autofunction:: upload_public_key

@@ -6,8 +6,6 @@
 :synopsis: Logging facilities for this project.
 :author: Amr Ali <amr@databracket.com>
 
-Facilities
-----------
 .. autoclass:: Logger
     :members:
 """

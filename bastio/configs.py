@@ -6,8 +6,6 @@
 :synopsis: Configurations memory and file system store.
 :author: Amr Ali <amr@databracket.com>
 
-Configuration Store
--------------------
 .. autoclass:: GlobalConfigStore
     :members:
     :special-members:

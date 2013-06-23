@@ -6,6 +6,8 @@
 :synopsis: Mixins utilities used across the project.
 :author: Amr Ali <amr@databracket.com>
 
+.. rst-class:: html-toggle
+
 Metaclasses
 -----------
 .. autoclass:: SingletonAbstractMeta
@@ -13,6 +15,8 @@ Metaclasses
 .. autoclass:: KindSingletonMeta
 
 .. autoclass:: UniqueSingletonMeta
+
+.. rst-class:: html-toggle
 
 Data Structure Mixins
 ---------------------

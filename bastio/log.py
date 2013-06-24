@@ -15,6 +15,7 @@ __copyright__ = "Copyright 2013 Databracket LLC"
 __license__ = "GPLv3+"
 
 import logging
+import logging.handlers
 
 from bastio.mixin import public, UniqueSingletonMeta
 
@@ -48,7 +49,7 @@ class Logger(object):
         if self._syslog_enabled:
             return
         _handler = logging.SysLogHandler(address=_getSyslogAddress(),
-                facility=logging.SysLogHandler.LOG_SYSLOG)
+                facility=logging.handlers.SysLogHandler.LOG_SYSLOG)
         _handler.setFormatter(self._formatter)
         self._logger.addHandler(_handler)
         self._syslog_enabled = True

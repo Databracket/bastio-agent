@@ -5,4 +5,4 @@ python:
 # command to install dependencies
 install: "python setup.py develop"
 # command to run tests
-script: "sudo python setup.py test"
+script: "python setup.py test"

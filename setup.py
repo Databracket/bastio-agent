@@ -14,6 +14,15 @@ import os
 from setuptools import setup, find_packages
 from bastio import __version__
 
+def __filter_requires(filename):
+    # Unnecessary packages for agent's normal operations
+    unreqs = ['sphinx', 'theme', 'fabric']
+    with open(filename, 'rb') as fd:
+        reqs = map(lambda req: req.strip('\n'), fd.readlines())
+    for unreq in unreqs:
+        reqs = filter(lambda x: unreq not in x.lower(), reqs)
+    return reqs
+
 BASE_DIR = os.path.dirname(__file__)
 README_PATH = os.path.join(BASE_DIR, 'README.rst')
 REQS_PATH = os.path.join(BASE_DIR, 'requirements.txt')
@@ -39,7 +48,7 @@ setup(
         maintainer = 'Amr Ali',
         maintainer_email = 'amr@databracket.com',
         url = 'https://bastio.com',
-        install_requires = map(lambda req: req.strip('\n'), file(REQS_PATH).readlines()),
+        install_requires = __filter_requires(REQS_PATH),
         entry_points = {
             'console_scripts': [
                 'bastio-agent = bastio.cli:bastio_main',

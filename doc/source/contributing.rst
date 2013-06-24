@@ -5,7 +5,7 @@
 Hacking
 =======
 
-So our fellow hacker you have got something you would like to see in |project_name|?
+Thought of something you would like to see in |project_name|?
 This document will help you get started.
 
 Important URLs
@@ -14,14 +14,13 @@ Important URLs
 |project_name| uses git_ to track code history and hosts its `code repository`_
 at github_. The `issue tracker`_ is where you can file bug reports and request
 features or enhancements to |project_name|. We also have a `PyPI repository`_
-hosted at PyPI_, and a `PPA repository`_. |project_name| also uses and is centered
+hosted at PyPI_, and a `PPA repository`_. |project_name| uses and is centered
 around Paramiko_.
 
 Before You Start
 ----------------
 
-Ensure your system has the following programs and libraries installed before
-beginning to hack:
+Ensure your system has the following programs and libraries installed:
 
 - Python_
 - git_

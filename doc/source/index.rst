@@ -35,7 +35,7 @@ You could also use pip_ to install |project_name|::
 
 Need more help with installation? See :ref:`installation`.
 
-User's Guide
+User Guide
 ============
 
 .. toctree::
@@ -43,7 +43,7 @@ User's Guide
 
     installation
     configuration
-    hacking
+    contributing
     api
 
 Indices and Tables

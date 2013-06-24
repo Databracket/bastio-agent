@@ -3,6 +3,7 @@
 *.egg-info
 *.gz
 *.deb
+debian/changelog
 dist
 build
 eggs

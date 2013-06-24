@@ -47,7 +47,7 @@ class Logger(object):
         """Enable Syslog logging. This method is idempotent."""
         if self._syslog_enabled:
             return
-        _handler = SysLogHandler(address=_getSyslogAddress(),
+        _handler = logging.SysLogHandler(address=_getSyslogAddress(),
                 facility=logging.SysLogHandler.LOG_SYSLOG)
         _handler.setFormatter(self._formatter)
         self._logger.addHandler(_handler)

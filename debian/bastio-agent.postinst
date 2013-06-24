@@ -6,7 +6,11 @@
 set -e
 
 virtualenv /opt/bastio-agent/
-. /opt/bastio-agent/bin/activate && pip install /tmp/Bastio-Agent-0.1.0.tar.gz;rm -f /tmp/Bastio-Agent-0.1.0.tar.gz
+source /opt/bastio-agent/bin/activate
+pip install /tmp/Bastio-Agent-*.tar.gz
+deactivate
+rm -f /tmp/Bastio-Agent-*.tar.gz
+
 # summary of how this script can be called:
 #        * <postinst> `configure' <most-recently-configured-version>
 #        * <old-postinst> `abort-upgrade' <new version>

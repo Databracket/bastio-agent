@@ -1,8 +1,8 @@
 language: python
 python:
     - "2.7"
-    - "pypy"
+    - "2.6"
 # command to install dependencies
 install: "python setup.py develop"
 # command to run tests
-script: "python setup.py test"
+script: "sudo sh -c \". $VIRTUAL_ENV/bin/activate; python setup.py test\""

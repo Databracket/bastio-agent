@@ -1,15 +1,6 @@
 #!/bin/sh
-# postinst script for test
-#
-# see: dh_installdeb(1)
 
 set -e
-
-virtualenv /opt/bastio-agent/
-source /opt/bastio-agent/bin/activate
-pip install /tmp/Bastio-Agent-*.tar.gz
-deactivate
-rm -f /tmp/Bastio-Agent-*.tar.gz
 
 # summary of how this script can be called:
 #        * <postinst> `configure' <most-recently-configured-version>
@@ -23,12 +14,18 @@ rm -f /tmp/Bastio-Agent-*.tar.gz
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-
 case "$1" in
     configure)
+        virtualenv /opt/bastio-agent/
+        . /opt/bastio-agent/bin/activate
+        pip install /tmp/Bastio-Agent-*.tar.gz
+        deactivate
+        rm -f /tmp/Bastio-Agent-*.tar.gz
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
+        rm -rf /opt/bastio-agent/
+        rm -rf /tmp/Bastio-Agent-*.tar.gz
     ;;
 
     *)

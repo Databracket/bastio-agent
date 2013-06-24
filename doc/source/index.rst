@@ -8,7 +8,7 @@
 Bastio Agent
 ============
 
-Bastio is an operating system user account provisioning tool. It helps
+Bastio is an operating system user account provisioning tool to help
 people with a lot of servers and users create and delete system user accounts.
 With Bastio, you no longer need to keep track of your team's access to
 servers. For example, once a team member leaves, you can disable her access to all your server

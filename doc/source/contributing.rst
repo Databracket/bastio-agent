@@ -3,7 +3,7 @@
 .. _contributing:
 
 Contributing
-=======
+============
 
 Thought of something you would like to see in |project_name|?
 This document will help you get started.
@@ -39,10 +39,10 @@ Setting up the Work Environment
   $ cd bastio-agent/
   $ virtualenv venv/
   $ source venv/bin/activate
+  $ pip install -r requirements.txt
   $ python setup.py develop
 
 .. note::
     Run ``python setup.py develop`` only once at first, any changes won't affect the
-    script generated in the ``bin`` directory under the ``venv`` directory.
-
+    script generated in the ``venv/bin`` directory.
 

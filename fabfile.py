@@ -23,7 +23,7 @@ def builddeb(name="Bastio (Databracket LLC Bastio Package Signing Key)",
         local('dch --package bastio-agent --distribution {} --create -v {}'.format(
             dist, __version__))
     with settings(warn_only=True):
-        local('dpkg-buildpackage -A -tc', capture=False)
+        local('dpkg-buildpackage -A -tc -k599FA492', capture=False)
     local('mv ../bastio-agent_{}_all.deb .'.format(__version__))
     local('mv ../bastio-agent_{}_*.changes .'.format(__version__))
 

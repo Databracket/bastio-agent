@@ -1,8 +1,8 @@
 .. include:: global.rst.inc
 
-.. _hacking:
+.. _contributing:
 
-Hacking
+Contributing
 =======
 
 Thought of something you would like to see in |project_name|?

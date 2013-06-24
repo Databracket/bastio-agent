@@ -2,6 +2,7 @@
 *.egg
 *.egg-info
 *.gz
+*.deb
 dist
 build
 eggs

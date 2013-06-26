@@ -1,3 +1,9 @@
+bastio-agent (0.1.2-1) precise; urgency=low
+
+  * Remove dependency on python-pip.
+
+ -- Amr Ali <amr@databracket.com>  Wed, 26 Jun 2013 05:04:54 +0200
+
 bastio-agent (0.1.1-2) precise; urgency=low
 
   * Fix hard-coded version in debain/bastio-agent.install.

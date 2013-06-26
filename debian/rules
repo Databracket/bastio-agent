@@ -9,29 +9,12 @@
 # Uncomment this to turn on verbose mode.
 # export DH_VERBOSE=1
 
-#%:
-#	dh $@ 
-binary:
-	dh_testdir
-	dh_testroot
-	dh_installdirs
-	dh_install
-	dh_installinit
-	dh_link
-	dh_fixperms
-	dh_installdeb
-	dh_shlibdeps
-	dh_gencontrol
-	dh_md5sums
-	dh_builddeb
-
-
 build:
 	#nothing to do
 
 clean:
 	dh_testdir
-	dh_clean 
+	dh_clean
 
 install: build
 	dh_testdir
@@ -39,7 +22,7 @@ install: build
 	dh_prep
 	dh_installdirs
 
-binary-indep: install
+binary: install
 	dh_testdir
 	dh_testroot
 	dh_installdirs

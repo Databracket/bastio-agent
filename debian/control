@@ -1,0 +1,11 @@
+Source: bastio-agent
+Section: admin
+Priority: extra
+Build-Depends: debhelper, python
+Maintainer: support@bastio.com
+Homepage: http://www.bastio.com/
+
+Package: bastio-agent
+Architecture: all
+Depends: python-dev, python-virtualenv, python2.7, python-pip
+Description: An agent for Bastio service to provision system accounts and SSH access.

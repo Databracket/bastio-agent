@@ -39,7 +39,7 @@ classifiers = [
     ]
 
 setup(
-        name = 'Bastio-Agent',
+        name = 'bastio-agent',
         version = __version__,
         description = 'Bastio agent to provision system accounts and SSH access',
         long_description = file(README_PATH).read(),

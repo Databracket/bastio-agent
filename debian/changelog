@@ -1,3 +1,9 @@
+bastio-agent (0.1.1-1) precise; urgency=low
+
+  * Fix tar-ball package name in postinst script.
+
+ -- Amr Ali <amr@databracket.com>  Wed, 26 Jun 2013 04:07:27 +0200
+
 bastio-agent (0.1.0-1) precise; urgency=low
 
   * Initial release.

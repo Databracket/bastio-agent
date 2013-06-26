@@ -7,5 +7,5 @@ Homepage: http://www.bastio.com/
 
 Package: bastio-agent
 Architecture: all
-Depends: python-dev, python-virtualenv, python2.7, python-pip
+Depends: python2.7, python-dev, python-virtualenv
 Description: An agent for Bastio service to provision system accounts and SSH access.

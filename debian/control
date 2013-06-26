@@ -1,8 +1,9 @@
 Source: bastio-agent
 Section: admin
 Priority: extra
+Build-Depends: debhelper, python
 Maintainer: support@bastio.com
-Homepage:  http://www.bastio.com/
+Homepage: http://www.bastio.com/
 
 Package: bastio-agent
 Architecture: all

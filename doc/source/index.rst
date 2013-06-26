@@ -28,6 +28,8 @@ Easy Installation
 
 You can install |project_name| from our `PPA repository`_ quickly and easily::
 
+    # apt-add-repository ppa:databracket/bastio-agent
+    # apt-get update
     # apt-get install bastio-agent
 
 You could also use pip_ to install |project_name|::

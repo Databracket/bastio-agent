@@ -18,14 +18,14 @@ case "$1" in
     configure)
         virtualenv /opt/bastio-agent/
         . /opt/bastio-agent/bin/activate
-        pip install /tmp/Bastio-Agent-*.tar.gz
+        pip install /tmp/bastio-agent-*.tar.gz
         deactivate
-        rm -f /tmp/Bastio-Agent-*.tar.gz
+        rm -f /tmp/bastio-agent-*.tar.gz
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
         rm -rf /opt/bastio-agent/
-        rm -rf /tmp/Bastio-Agent-*.tar.gz
+        rm -rf /tmp/bastio-agent-*.tar.gz
     ;;
 
     *)

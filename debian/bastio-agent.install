@@ -1,2 +1,2 @@
-dist/bastio-agent-0.1.0.tar.gz	tmp
+dist/bastio-agent-*.tar.gz	tmp
 data/agent.conf	etc/bastio

@@ -4,7 +4,8 @@
 *.gz
 *.deb
 *.changes
-debian/changelog
+*.dsc
+*.upload
 dist
 build
 eggs

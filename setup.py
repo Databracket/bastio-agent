@@ -34,6 +34,8 @@ classifiers = [
     'Natural Language :: English',
     'Intended Audience :: Developers',
     'Intended Audience :: Information Technology',
+    'Intended Audience :: System Administrators',
+    'Topic :: System :: Systems Administration',
     'Programming Language :: Python :: 2',
     'Programming Language :: Python :: 2.7',
     ]

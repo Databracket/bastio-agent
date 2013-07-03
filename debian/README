@@ -11,3 +11,25 @@ The function accepts two parameters (name,email) and EDITOR will be opened and t
 * fab clear
 
 This function will remove the debian package and run setup.py clear.
+
+Adding debian package to our repo
+=================================
+
+1-add those lines to /etc/dupload.conf
+
+$cfg{'bastio'} = {
+        fqdn => "packages.bastio.com",
+        login => "your_user_name",
+        method => "scpb",
+        incoming => "/srv/reprepro/ubuntu/incoming/",
+        # The dinstall on ftp-master sends emails itself
+        dinstall_runs => 1,
+};
+
+2-create a new package using the fab file
+
+3-dupload --to bastio <package.changes>
+
+4-the script /srv/reprepro/ubuntu/update.sh will add the new package through cron
+
+NOTE:pleas make sure you changed the default port to 31337 inside /etc/ssh/ssh_conf

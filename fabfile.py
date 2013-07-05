@@ -61,7 +61,8 @@ def builddeb(name, email, dist=None, pkg_version='1', keyid='599FA492'):
 def uploaddeb(ppa="ppa:databracket/bastio-agent"):
     """Upload the latest source package to Launchpad"""
     with lcd(ROOT_DIR):
-        local("dput {} bastio-agent_{}*_source.changes".format(ppa, __version__))
+        #local("dput {} bastio-agent_{}*_source.changes".format(ppa, __version__))
+        local ("dupload -c  --to bastio bastio-agent_{}*_source.changes".format(__version__))
 
 def clean():
     """Clean debian package and sdist artifacts"""
